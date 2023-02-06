@@ -20,4 +20,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::prefix('v1')->group(function () {
     Route::post('/users', [\App\Http\Controllers\UserController::class, 'store']);
+
+    Route::post('/auth/token', [\App\Http\Controllers\UserController::class, 'getToken']);
 });

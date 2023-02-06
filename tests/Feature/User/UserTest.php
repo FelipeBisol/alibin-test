@@ -9,7 +9,7 @@ use Tests\TestCase;
 
 class UserTest extends TestCase
 {
-    use RefreshDatabase;
+//    use RefreshDatabase;
 
     public function test_it_should_be_create_an_user_successfully()
     {
@@ -30,8 +30,7 @@ class UserTest extends TestCase
             'data' => [
                 'id',
                 'name',
-                'email',
-                'remember_token'
+                'email'
             ]
         ]);
     }
@@ -74,5 +73,41 @@ class UserTest extends TestCase
         ]);
 
         $response->assertSessionHasErrors(['password_confirmation']);
+    }
+
+    public function test_get_token_by_user()
+    {
+        //arrange
+        $userData = UserFactory::new()->definition();
+        $userData['password_confirmation'] = $userData['password'];
+        $user = $this->post('/api/v1/users', $userData)->json();
+
+        //act
+        $response = $this->post('/api/v1/auth/token', [
+            'email' => $userData['email'],
+            'password' => $userData['password']
+        ]);
+
+        //assert
+        $response->assertSuccessful();
+        $this->assertArrayHasKey('token', $response->json()['data']);
+    }
+
+    public function test_not_return_token_why_failed_auth()
+    {
+        //arrange
+        $userData = UserFactory::new()->definition();
+        $userData['password_confirmation'] = $userData['password'];
+        $user = $this->post('/api/v1/users', $userData)->json();
+
+        //act
+        $response = $this->post('/api/v1/auth/token', [
+            'email' => $userData['email'],
+            'password' => \Str::random()
+        ]);
+
+        //assert
+        $response->assertUnauthorized();
+        $this->assertArrayNotHasKey('token', $response->json()['data']);
     }
 }
