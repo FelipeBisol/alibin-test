@@ -17,4 +17,9 @@ class Book extends Model
     {
         return $this->hasMany(Summary::class)->where('summary_id', '=', null);
     }
+
+    public function allSummaries(): HasMany
+    {
+        return $this->hasMany(Summary::class);
+    }
 }

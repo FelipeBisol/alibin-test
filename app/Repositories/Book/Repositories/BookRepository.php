@@ -46,4 +46,21 @@ class BookRepository implements BookRepositoryInterface
             }
         }
     }
+
+    public function getBooks(array $params): \Illuminate\Database\Eloquent\Collection
+    {
+        $book = Book::query();
+
+        if(!empty($params['title'])){
+            $book->where('title', $params['title']);
+        }
+
+        if(!empty($params['summary_title'])){
+            $book->whereHas('allSummaries', function ($query) use($params){
+                $query->where('title', $params['summary_title']);
+            });
+        }
+
+        return $book->get();
+    }
 }

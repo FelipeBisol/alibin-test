@@ -15,6 +15,10 @@ class BookResource extends JsonResource
     {
         return [
             'title' => $this->title,
+            'user' => [
+                'id' => \Auth::user()->id,
+                'name' => \Auth::user()->name
+            ],
             'summaries' => SummaryResource::collection($this->summaries)
         ];
     }

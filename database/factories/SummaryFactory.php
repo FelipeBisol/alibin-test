@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Book;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +18,10 @@ class SummaryFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'title' => $this->faker->title,
+            'book_id' => Book::factory()->create(),
+            'page' => $this->faker->numberBetween(1, 10),
+            'summary_id' => null
         ];
     }
 }
