@@ -18,7 +18,7 @@ class UserTest extends TestCase
         $userPayload['password_confirmation'] = $userPayload['password'];
 
         //act
-        $response = $this->post('/api/v1/users', $userPayload);
+        $response = $this->post('/v1/users', $userPayload);
 
         //assert
         $response->assertSuccessful();
@@ -44,7 +44,7 @@ class UserTest extends TestCase
         $newUser['password_confirmation'] = $newUser['password'];
 
         //act
-        $response = $this->post('/api/v1/users', $newUser);
+        $response = $this->post('/v1/users', $newUser);
 
         //assert
         $this->assertDatabaseMissing('users', [
@@ -64,7 +64,7 @@ class UserTest extends TestCase
         $newUser['password_confirmation'] = \Str::random(10);
 
         //act
-        $response = $this->post('/api/v1/users', $newUser);
+        $response = $this->post('/v1/users', $newUser);
 
         //assert
         $this->assertDatabaseMissing('users', [
@@ -80,10 +80,10 @@ class UserTest extends TestCase
         //arrange
         $userData = UserFactory::new()->definition();
         $userData['password_confirmation'] = $userData['password'];
-        $user = $this->post('/api/v1/users', $userData)->json();
+        $user = $this->post('/v1/users', $userData)->json();
 
         //act
-        $response = $this->post('/api/v1/auth/token', [
+        $response = $this->post('/v1/auth/token', [
             'email' => $userData['email'],
             'password' => $userData['password']
         ]);
@@ -98,10 +98,10 @@ class UserTest extends TestCase
         //arrange
         $userData = UserFactory::new()->definition();
         $userData['password_confirmation'] = $userData['password'];
-        $user = $this->post('/api/v1/users', $userData)->json();
+        $user = $this->post('/v1/users', $userData)->json();
 
         //act
-        $response = $this->post('/api/v1/auth/token', [
+        $response = $this->post('/v1/auth/token', [
             'email' => $userData['email'],
             'password' => \Str::random()
         ]);

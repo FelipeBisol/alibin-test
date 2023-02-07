@@ -16,3 +16,14 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::prefix('v1')->group(function () {
+    Route::post('/users', [\App\Http\Controllers\UserController::class, 'store']);
+
+    Route::post('/auth/token', [\App\Http\Controllers\UserController::class, 'getToken']);
+
+    Route::middleware('auth:sanctum')->prefix('books')->group(function (){
+        Route::get('/', [\App\Http\Controllers\BookController::class, 'show']);
+        Route::post('/', [\App\Http\Controllers\BookController::class, 'store']);
+    });
+});

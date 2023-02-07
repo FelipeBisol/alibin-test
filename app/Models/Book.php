@@ -11,9 +11,10 @@ class Book extends Model
     use HasFactory;
 
     protected $fillable = ['id', 'user_id', 'title'];
+    public $timestamps = false;
 
     public function summaries(): HasMany
     {
-        return $this->hasMany(Summary::class);
+        return $this->hasMany(Summary::class)->where('summary_id', '=', null);
     }
 }

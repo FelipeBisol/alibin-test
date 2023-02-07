@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('summaries', function (Blueprint $table) {
             $table->id();
             $table->foreignId('book_id')->constrained('books');
-            $table->foreignId('summary_id')->constrained('summaries');
+            $table->foreignId('summary_id')->nullable()->constrained('summaries');
             $table->string('title');
             $table->integer('page');
         });

@@ -12,6 +12,7 @@ class Summary extends Model
     use HasFactory;
 
     protected $fillable = ['id', 'book_id', 'summary_id', 'title', 'page'];
+    public $timestamps = false;
 
     public function book(): BelongsTo
     {
